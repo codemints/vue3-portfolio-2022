@@ -1,0 +1,32 @@
+@use 'scss/core/variables' as v;
+
+@font-face {
+  font-family: 'GT Haptik';
+  src: url('../fonts/GT-Haptik-Black.otf') format('otf');
+  src: url('../fonts/GT-Haptik-Black.woff') format('woff');
+  font-weight: 900;
+}
+@font-face {
+  font-family: 'GT Haptik';
+  src: url('../fonts/GT-Haptik-Bold.woff') format('otf');
+  src: url('../fonts/GT-Haptik-Bold.woff') format('woff');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'GT Haptik';
+  src: url('../fonts/GT-Haptik-Regular.otf') format('otf');
+  src: url('../fonts/GT-Haptik-Regular.woff') format('woff');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'GT Haptik';
+  src: url('../fonts/GT-Haptik-Light.otf') format('otf');
+  src: url('../fonts/GT-Haptik-Light.woff') format('woff');
+  font-weight: 200;
+}
+
+h1 {
+  color: v.$theme-blue;
+  font-family: v.$font-body;
+  // font-family: v.$font-heading;
+}

@@ -1,0 +1,8 @@
+@use 'sass:color';
+@use 'scss/abstracts' as *;
+
+:root {
+  @each $name, $value in $colors {
+    --#{$name}: #{$value};
+  }
+}
