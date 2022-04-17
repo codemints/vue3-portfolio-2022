@@ -4,13 +4,14 @@ module.exports = {
   darkMode: 'class',
   content: [
     "./components/**/*.{vue,js}",
+    "./composables/**/*.{vue,js}",
     "./layouts/**/*.vue",
     "./pages/**/*.vue",
     "./app.vue",
     "./plugins/**/*.{js,ts}",
+    "./assets/**/*.{html,js,jsx,tx,tsx}"
   ],
   theme: {
-    darkMode: 'class',
     colors: {
       'theme-800': '#161b21', //dark theme
       'theme-700': '#212933', //dark theme

@@ -1,0 +1,25 @@
+html {
+  font-size: 10px;
+}
+
+input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: transparent;
+
+  &:focus {
+    box-shadow: none;
+    outline: none;
+    outline-offset: 0;
+    background-color: transparent;
+  }
+
+  &:checked {
+    background-image: none;
+    background-color: transparent;
+  }
+}
+

@@ -1,0 +1,16 @@
+@use 'scss/abstracts/variables' as *;
+
+.button {
+  color: white;
+  font-size: 1.8rem;
+  text-transform: lowercase;
+
+  display: block;
+  width: max-content;
+  background-color: $theme-orange;
+
+  padding-inline: 3rem;
+  padding-block: 1.5rem;
+
+  transition: $bounce;
+}

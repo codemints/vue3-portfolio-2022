@@ -22,40 +22,37 @@ export default defineNuxtConfig({
   },
   css: [
     'scss/main.scss',
-    '@/node_modules/animate.css/animate.min.css'
   ],
-
   alias: {
     'img': resolve(__dirname, './assets/img'),
     'fonts': resolve(__dirname, './assets/fonts'),
     'scss': resolve(__dirname, './assets/scss'),
     'comp': resolve(__dirname, './components'),
     'ico': resolve(__dirname, './assets/icons'),
+    'state': resolve(__dirname, './composables'),
   },
-  buildModules: [
-  ],
   build: {
-      postcss: {
-          postcssOptions: {
-              plugins: {
-                  tailwindcss: {},
-                  autoprefixer: {},
-              },
-          },
+    postcss: {
+      postcssOptions: {
+        plugins: {
+          tailwindcss: {},
+          autoprefixer: {},
+        },
       },
+    },
   },
   postcss: {
-      plugins: {
-        tailwindcss: {},
-        autoprefixer: {},
-      },
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
   },
   vite: {
-      logLevel: "info",
-      optimizeDeps: {
-          include: [
-              '@headlessui/vue'
-          ]
-      }
+    logLevel: "info",
+    optimizeDeps: {
+      include: [
+        '@headlessui/vue'
+      ]
+    }
   }
 });
