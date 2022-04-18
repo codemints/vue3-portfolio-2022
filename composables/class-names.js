@@ -8,6 +8,7 @@ export const classNames = {
   menu: 'bg-theme-300 dark:bg-theme-500',
   titles: 'text-theme-600 dark:text-theme-100',
   subTitles: 'text-theme-400 dark:text-theme-100',
+  toggleShrink: 'text-theme-300 dark:text-theme-100 hover:text-theme-200 hover:dark:text-theme-blue cursor-pointer',
 }
 
 export const cNameRef = ref(classNames)

@@ -22,7 +22,7 @@
 <script>
   import { cNameRef as names } from 'state/class-names'
   import { sectionRoutes as sRoutes } from 'state/routed'
-  import { ref, onMounted, onUpdated } from 'vue'
+  import { ref, onMounted } from 'vue'
   
   export default {
     setup () {
@@ -48,8 +48,6 @@
           else link.classList.add('isActive')
         })
 
-        console.dir(shuttle)
-
         //move shuttle to target location
         shuttle.style.width = `${width}px`
         shuttle.style.transform = `translateX(${shuttlePosition}px)`
@@ -65,7 +63,7 @@
         navShuttle,
         sRoutes,
         activate,
-        deactivate
+        deactivate,
       }
     }
   }
@@ -74,10 +72,11 @@
 <style lang="scss" scoped>
   @use 'scss/abstracts/variables' as *;
   .main__nav {
-    
     display: flex;
     align-items: center;
+
     min-height: 6rem;
+    width: 100vw;
   }
   
   .nav__wrapper {

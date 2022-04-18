@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { ref, onMounted } from 'vue'
+  import { ref } from 'vue'
 
   export default {
     props: ['routeObj', 'parent'],
@@ -16,7 +16,8 @@
       const currentLink = ref(null)
 
       const scrollTo = (domElement) => {
-        domElement.scrollIntoView({ behavior: 'smooth' })
+        if ( domElement.id === 'intro') window.scroll({ top: 0, behavior: 'smooth'})
+        else domElement.scrollIntoView({ behavior: 'smooth' })
         
         handleActiveLink();
       }
