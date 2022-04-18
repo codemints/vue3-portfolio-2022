@@ -5,6 +5,7 @@ html {
 
   body {
     background-color: $theme-100;
+    overflow-x: hidden;
   }
 
   &.dark body {

@@ -1,0 +1,25 @@
+@use 'scss/abstracts/variables' as *;
+
+.block__hover {
+  position: relative;
+  font-size: inherit;
+  cursor: pointer;
+  z-index: 1;
+}
+.block__hover:after {
+  content: '';
+  position: absolute;
+  bottom: 0.3rem;
+  left: 0;
+  height: 1.2rem;
+  width: 100%;
+  background-color: $theme-200;
+  z-index: -1;
+  transition: $bounce;
+}
+.block__hover:hover:after {
+  height: calc( 100% - 0.3rem );
+}
+.dark .block__hover:after {
+  background-color: $theme-500;
+}

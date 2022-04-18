@@ -2,7 +2,7 @@
   <section id="intro" class="[ page__section ]" ref="section">
     <div class="[ intro__content ]">
       <h1 class="[ intro__title ]" :class="names.titles">Hello<span class="[ text-theme-orange ]">.</span> My Name Is LT<span class="[ text-theme-orange ]">.</span></h1>
-      <h3 class="[ intro__subtitle ]" :class="names.subTitles">And I'm A Creative Frontend Developer With Roots In Design</h3>
+      <h3 class="[ intro__subtitle ]" :class="names.subTitles">And I'm A <span class="[ block__hover ]">Creative</span> Frontend <span class="[ block__hover ]">Developer</span> With Roots In <span class="[ block__hover ]">Design</span></h3>
       <a href="" class="[ button ] [ mx-auto ]">Let's Work Together</a>
     </div>
   </section>

@@ -84,6 +84,7 @@ export default {
 
       body.style.paddingTop = headerHeight
       
+      //collapse or expand header
       window.addEventListener('scroll', () => {
         if ( window.scrollY >= navTop ) {
           logoStyle.height = 0
@@ -119,6 +120,7 @@ export default {
   #header__nav {
     position: fixed;
     top: 0;
+    z-index: 2;
   }
     
   .site__header {
