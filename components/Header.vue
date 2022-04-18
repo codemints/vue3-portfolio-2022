@@ -3,7 +3,7 @@
     <section class="[ site__header ]" :class="names.surfaceA">
       <div class="[ nav__start ]">
         <HeaderHamburger />
-        <SiteSocialIcons />
+        <GlobalsSocialIcons />
       </div>
       <div class="[ nav__middle ]">
         <img class="[ site__logo ] [ cursor-pointer ]" :src="mode === true ? logoDark : logoLight" alt="site logo">

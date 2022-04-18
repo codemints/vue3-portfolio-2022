@@ -31,6 +31,9 @@ export default defineNuxtConfig({
     'ico': resolve(__dirname, './assets/icons'),
     'state': resolve(__dirname, './composables'),
   },
+  buildModules: [
+    '@pinia/nuxt',
+  ],
   build: {
     postcss: {
       postcssOptions: {

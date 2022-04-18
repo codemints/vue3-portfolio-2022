@@ -1,25 +1,30 @@
 import { ref } from 'vue'
 
-export const sections = ref([
+export const sectionRoutes = ref([
   {
     title: 'site(intro)',
-    route: 'home-route'
+    scrollTo: 'intro',
+    route: null,
   },
   {
     title: 'about(me)',
-    route: 'bio-route'
+    scrollTo: 'about',
+    route: null,
   },
   {
     title: 'my(work)',
-    route: 'portfolio-route'
+    scrollTo: 'portfolio',
+    route: null,
   },
   {
     title: 'dev(skills)',
-    route: 'experience-route'
+    scrollTo: 'experience',
+    route: null,
   },
   {
     title: 'contact(info)',
-    route: 'contact-route'
+    scrollTo: 'contact',
+    route: null,
   },
 ])
 

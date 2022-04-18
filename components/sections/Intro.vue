@@ -1,5 +1,5 @@
 <template>
-  <section id="intro__section" class="[ page__section ]" ref="section">
+  <section id="intro" class="[ page__section ]" ref="section">
     <div class="[ intro__content ]">
       <h1 class="[ intro__title ]" :class="names.titles">Hello<span class="[ text-theme-orange ]">.</span> My Name Is LT<span class="[ text-theme-orange ]">.</span></h1>
       <h3 class="[ intro__subtitle ]" :class="names.subTitles">And I'm A Creative Frontend Developer With Roots In Design</h3>
@@ -12,14 +12,21 @@
   import { ref, onMounted } from 'vue'
   import { headerHeight } from 'state/component-info'
   import { cNameRef as names } from 'state/class-names'
+  import { sectionRoutes as sRoutes } from 'state/routed'
 
   export default {
     setup () {
       const section = ref(0)
 
       onMounted(() => {
+        const sectionId = section.value.id
+
         const height = (window.innerHeight - headerHeight.value) / 10
         section.value.style.height = `${height}rem`
+
+        sRoutes.value.forEach(route => {
+          if ( sectionId === route.scrollTo ) route.route = section.value
+        })
       })
 
       return {

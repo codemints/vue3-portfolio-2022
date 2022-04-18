@@ -2,6 +2,10 @@
   <div id="root" :class="{ 'dark': mode === true }">
     <Header/>
     <SectionsIntro />
+    <SectionsAbout />
+    <SectionsPortfolio />
+    <SectionsExperience />
+    <SectionsContact />
   </div>
 </template>
 
