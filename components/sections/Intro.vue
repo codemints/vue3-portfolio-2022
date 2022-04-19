@@ -3,7 +3,8 @@
     <div class="[ intro__content ]">
       <h1 class="[ intro__title ]" :class="names.titles">Hello<span class="[ text-theme-orange ]">.</span> My Name Is LT<span class="[ text-theme-orange ]">.</span></h1>
       <h3 class="[ intro__subtitle ]" :class="names.subTitles">And I'm A <span class="[ block__hover ]">Creative</span> Frontend <span class="[ block__hover ]">Developer</span> With Roots In <span class="[ block__hover ]">Design</span></h3>
-      <a href="" class="[ button ] [ mx-auto ]">Let's Work Together</a>
+      <!-- <a href="" class="[ button ] [ mx-auto ]">Let's Work Together</a> -->
+      <GlobalsButton :onClick="scrollTo" dataType="primary" :classNames="[ 'bg-theme-orange', 'text-theme-100', 'mt-20', 'mx-auto' ]">Let's Work Together</GlobalsButton>
     </div>
   </section>
 </template>
@@ -18,6 +19,10 @@
     setup () {
       const section = ref(0)
 
+      const scrollTo = () => {
+        console.log('clicked')
+      }
+
       onMounted(() => {
         const sectionId = section.value.id
 
@@ -31,7 +36,8 @@
 
       return {
         section,
-        names
+        names,
+        scrollTo,
       }
     }
   }

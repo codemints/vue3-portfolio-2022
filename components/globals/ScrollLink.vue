@@ -1,11 +1,11 @@
 <template>
-  <a href="#" @click.prevent="scrollTo(scroll)" ref="currentLink">
+  <a href="#" @click.prevent="scrollTo(scroll)" ref="currentLink" :data-link="route.scrollTo">
     {{ route.title }}
   </a>
 </template>
 
 <script>
-  import { ref } from 'vue'
+  import { ref, onMounted } from 'vue'
 
   export default {
     props: ['routeObj', 'parent'],
@@ -14,6 +14,10 @@
       const route = props.routeObj
       const scroll = ref(route.route)
       const currentLink = ref(null)
+
+      // onMounted(() => {
+      //   console.log(route.scrollTo)
+      // })
 
       const scrollTo = (domElement) => {
         if ( domElement.id === 'intro') window.scroll({ top: 0, behavior: 'smooth'})

@@ -139,7 +139,7 @@ export default {
       transition: $base;
 
       &:hover {
-        filter: blur(2px);
+        filter: blur(3px);
       }
     }
 
