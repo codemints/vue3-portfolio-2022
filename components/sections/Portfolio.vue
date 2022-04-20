@@ -1,12 +1,13 @@
 <template>
-  <section id="portfolio" ref="section">
-    <h2>Section One</h2>
+  <section id="portfolio" ref="section" :class="names.surfaceA">
+    <h2>my(work)</h2>
   </section>
 </template>
 
 <script>
   import { useNavState } from '~/stores/nav-state'
   import { ref, onMounted } from 'vue'
+  import { cNameRef as names} from 'state/class-names'
 
   export default {
     setup () {
@@ -18,7 +19,8 @@
       })
 
       return {
-        section
+        section,
+        names
       }
     }
   }
@@ -30,7 +32,6 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: orange;
 
     h2 {
       color: white;

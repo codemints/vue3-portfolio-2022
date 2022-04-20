@@ -166,7 +166,7 @@ export default {
     .expand__nav {
       position: absolute;
       top: 50%;
-      left: 70vw;
+      right: 20vw;
       transform: translateY(-50%);
 
       i {
