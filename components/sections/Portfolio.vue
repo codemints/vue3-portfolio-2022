@@ -1,23 +1,20 @@
 <template>
   <section id="portfolio" ref="section">
-    <h1>Portfolio</h1>
+    <h2>Section One</h2>
   </section>
 </template>
 
 <script>
+  import { useNavState } from '~/stores/nav-state'
   import { ref, onMounted } from 'vue'
-  import { sectionRoutes as sRoutes } from 'state/routed'
 
   export default {
     setup () {
       const section = ref(null)
+      const store = useNavState()
 
       onMounted(() => {
-        const sectionId = section.value.id
-
-        sRoutes.value.forEach(route => {
-          if ( sectionId === route.scrollTo ) route.route = section.value
-        })
+        store.setRefNode(section)
       })
 
       return {
@@ -35,7 +32,7 @@
     height: 100vh;
     background-color: orange;
 
-    h1 {
+    h2 {
       color: white;
       font-size: 9.6rem;
     }

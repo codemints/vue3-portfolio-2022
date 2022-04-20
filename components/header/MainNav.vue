@@ -1,69 +1,100 @@
 <template>
   <nav class="[ main__nav ]">
-    <div class="[ nav__wrapper ]">
-      <div class="[ nav__links ]" ref="navLinks">
-
+    <div ref="parentNode" class="nav__links">
         <GlobalsScrollLink
-          v-for="(route, index) in sRoutes"
+          v-for="(link, index) in state.state.links"
           :key="index"
-          :routeObj="route"
-          :parent="navLinks"
-          :class="[ `menu__item-${index + 1}`, names.nav ]"
-          class="[ menu__item ]"
-          @mouseenter="activate"
-          @mouseleave="deactivate" />
-
+          :state="state"
+          :parentNode="parentNode"
+          :classList="['test', 'class']"
+          :link="link"
+          :linksTo="link.linksTo"
+          :class="`[ nav__item--${index}, nav__item ]`"
+          :shuttle="shuttle"
+        >
+          {{ link.text }}
+        </GlobalsScrollLink>
       </div>
-      <div class="[ nav__shuttle ] [ bg-theme-300 dark:bg-theme-blue ]" ref="navShuttle"></div>
-    </div>
+
+      <div class="nav__shuttle--parent" ref="shuttle">
+        <div class="nav__shuttle--wrapper">
+          <div class="nav__shuttle--lower"></div>
+          <div class="nav__shuttle--upper"></div>
+        </div>
+      </div>
   </nav>
 </template>
 
 <script>
   import { cNameRef as names } from 'state/class-names'
-  import { sectionRoutes as sRoutes } from 'state/routed'
-  import { ref, onMounted } from 'vue'
+  import { headerHeight } from 'state/component-info'
+  import { ref, onMounted, watch } from 'vue'
+  import { useNavState } from '~/stores/nav-state'
   
   export default {
     setup () {
-      const navLinks = ref(null)
-      const navShuttle = ref(null)
-      const links = ref(null)
+      const state = useNavState()
+      const setState = state.setState
+      const setInitial = state.setInitial
+      const parentNode = ref(null)
+      const shuttle = ref(null)
 
       onMounted(() => {
-        links.value = Array.from(navLinks.value.children)
-        links.value[0].classList.add('isActive')
-        navShuttle.value.style.width = `${links.value[0].offsetWidth}px`
-      })
-
-      const activate = (event) => {
-        const targ = event.target
-        const start = targ.offsetLeft
-        const width = targ.offsetWidth
-        const shuttle = navShuttle.value
-        const shuttlePosition = start - shuttle.offsetLeft
+        const first = parentNode.value.children[0]
+        const width = first.offsetWidth
         
-        links.value.forEach(link => {
-          if ( link !== targ ) link.classList.remove('isActive')
-          else link.classList.add('isActive')
-        })
+        first.classList.add('active');
+        shuttle.value.style.width = `${width}px`
 
-        //move shuttle to target location
-        shuttle.style.width = `${width}px`
-        shuttle.style.transform = `translateX(${shuttlePosition}px)`
-      }
+        // const sections = state.state.links
+        // const linkList = Array.from(parentNode.children)
+        // const sectionTops = {}
+        // const offset = headerHeight.value
+        // const marker = shuttle.value
+        // const data = {
+        //   links: linkList,
+        //   tops: sectionTops,
+        //   offset: offset,
+        //   marker: marker,
+        // }
 
-      const deactivate = (event) => {
 
+        // sections.forEach(section => {
+        //   const nodeId = section.refNode.id
+        //   const nodeTop = section.refNode.offsetTop
+
+        //   sectionTops[nodeId] = nodeTop
+        // })
+
+        // window.addEventListener('scroll', (e) => scrollSpy(e, data))
+      })
+        
+      const scrollSpy = (e, data) => {
+        const { links, tops, offset, marker } = data
+        const { scrollY, innerHeight } = window
+        const scrolled = scrollY + 350
+        
+        for ( let key in tops ) {
+          if ( tops[key] <= scrolled && tops[key] + innerHeight - offset >= scrolled ) {
+            setState(key)
+            setInitial(key)
+            
+            links.forEach(link => {
+              link.classList.remove('active')
+              if ( link.dataset.link === key ) {
+                link.classList.add('active')
+                marker.style.width = `${link.offsetWidth}px`
+                marker.style.left = `${link.offsetLeft}px`
+              }
+            })
+          }
+        }
       }
 
       return {
-        names,
-        navLinks,
-        navShuttle,
-        sRoutes,
-        activate,
-        deactivate,
+        state,
+        parentNode,
+        shuttle,
       }
     }
   }
@@ -71,49 +102,5 @@
 
 <style lang="scss" scoped>
   @use 'scss/abstracts/variables' as *;
-  .main__nav {
-    display: flex;
-    align-items: center;
-
-    min-height: 6rem;
-    width: 100vw;
-  }
   
-  .nav__wrapper {
-    text-align: center;
-    max-width: 65vw;
-    height: 100%;
-    margin-inline: auto;
-  }
-
-  .nav__links {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3.2rem;
-  }
-
-  .menu__item {
-    font-size: 1.8rem;
-    font-family: $font-body;
-
-    &.isActive {
-      color: $theme-200;
-    }
-  }
-
-  .dark .menu__item.isActive {
-    color: $theme-blue;
-  }
-
-  .nav__shuttle {
-    position: relative;
-    height: 0.2rem;
-    width: 5rem;
-    margin-top: 1rem;
-    // background-color: pink;
-    transition:
-      transform 0.5s cubic-bezier(.65,-0.17,0,1.73),
-      width 0.3s cubic-bezier(.65,-0.17,0,1.73) 0.45s;
-  }
 </style>

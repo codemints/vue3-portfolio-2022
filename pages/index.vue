@@ -1,126 +1,61 @@
 <template>
-  <TestsNav />
-  <TestsSectionOne />
-  <TestsSectionTwo />
-  <TestsSectionThree />
+  <div id="root">
+    <Header/>
+    <SectionsIntro />
+    <SectionsAbout />
+    <SectionsPortfolio />
+    <SectionsExperience />
+    <SectionsContact />
+    <Footer />
+  </div>
 </template>
 
 <script>
+  import { mode } from 'state/dark-mode'
+  import { ref, onMounted, watch } from 'vue'
 
   export default {
     setup () {
+      const root = ref(null)
+      const body = ref(null)
+
+      onMounted(() => {
+        root.value = document.documentElement
+        body.value = document.body
+        if ( mode.value === true ) root.value.classList.add('dark')
+        else root.value.classList.remove('dark')
+      })
+
+      watch(mode, () => {        
+        if ( mode.value === true ) root.value.classList.add('dark')
+        else root.value.classList.remove('dark')
+      })
 
       return {
-
+        mode
       }
     }
   }
 </script>
 
-<style lang="scss">
-  $black: #333538;
-  $red: #FF6384;
-  $blue: #36A2EB;
-  $green: #4BC0C0;
+<style lang="scss" scoped>
+  @use 'scss/abstracts/variables' as *;
 
-  $base: all 0.3s ease-in-out;
+  #root {
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
+      url('img/lightbg-section-01.png');
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: $theme-100;
+    transition: $bounce;
 
-  header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 10rem;
-    background-color: $black;
   }
-
-  .nav__links {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-
-    text-align: center;
-
-    max-width: 70vw;
-    width: 100%;
-    margin-inline: auto;
-
-    a {
-      color: white;
-      font-size: 1.8rem;
-      transition: $base;
-
-      &:hover,
-      &.active {
-        opacity: 0.5;
-      }
-    }
+  .dark #root {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+      url('img/darkbg-section-01.png');
+    background-color: $theme-800;
   }
-
-  nav {
-    position: relative;
-  }
-
-  .nav__shuttle--parent {
-    position: absolute;
-    bottom: -0.5rem;
-    left: 0;
-    width: 0;
-    height: 0.2rem;
-    margin-top: 0.5rem;
-    transition: all 0.3s ease-in-out;
-
-    .nav__shuttle--wrapper {
-      position: relative;
-      height: 100%;
-      width: 100%;
-    }
-
-    .nav__shuttle--upper,
-    .nav__shuttle--lower {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-    }
-
-    .nav__shuttle--lower {
-      width: 100%;
-      height: 100%;
-      background-color: $red;
-    }
-    .nav__shuttle--upper {
-      width: 50%;
-      height: 100%;
-      background-color: $green;
-    }
-  }
-
-  section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 100vw;
-
-    &:nth-of-type(1) {
-      background-color: $red;
-    }
-
-    &:nth-of-type(2) {
-      background-color: $blue;
-    }
-
-    &:nth-of-type(3) {
-      background-color: $green;
-    }
-  }
-  h2 {
-    color: white;
-    font-size: 6rem;
-  }
+  
 </style>

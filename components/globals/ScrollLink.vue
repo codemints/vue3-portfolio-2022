@@ -1,50 +1,103 @@
 <template>
-  <a href="#" @click.prevent="scrollTo(scroll)" ref="currentLink" :data-link="route.scrollTo">
-    {{ route.title }}
+  <a
+    href="#"
+    :data-link="props.linksTo"
+    :class="props.classList"
+    @click.prevent="handleScroll"
+    @mouseenter="handleShuttleIn"
+    @mouseleave="handleShuttleOut"
+    ref="currentItem"
+  >
+    <slot></slot>
   </a>
 </template>
 
 <script>
-  import { ref, onMounted } from 'vue'
+  import { ref, unref } from 'vue'
 
   export default {
-    props: ['routeObj', 'parent'],
+    props: [
+      'parentNode',
+      'state',
+      'classList',
+      'link',
+      'linksTo',
+      'shuttle'
+    ],
 
     setup (props) {
-      const route = props.routeObj
-      const scroll = ref(route.route)
-      const currentLink = ref(null)
+      const store = props.state
+      const setState = store.setState
+      const setInitial = store.setInitial
+      const currentItem = ref(null)
 
-      // onMounted(() => {
-      //   console.log(route.scrollTo)
-      // })
-
-      const scrollTo = (domElement) => {
-        if ( domElement.id === 'intro') window.scroll({ top: 0, behavior: 'smooth'})
-        else domElement.scrollIntoView({ behavior: 'smooth' })
-        
-        handleActiveLink();
+      const configure = (item) => {
+        const val = unref(item)
+        return {
+          linkList: Array.from(props.parentNode.children),
+          shuttle: props.shuttle,
+          shuttleUpper: props.shuttle.children[0].children[1],
+          shuttleLower: props.shuttle.children[0].children[0],
+          linkPosition: val.offsetLeft,
+          linkWidth: val.offsetWidth,
+          update(item) {
+            const value = unref(item)
+            return {
+              linkPosition: value.offsetLeft,
+              linkWidth: value.offsetWidth,
+            }
+          }
+        }
       }
 
-      const handleActiveLink = () => {
-        const navLinks = Array.from(props.parent.children)
+      const handleScroll = () => {
+        setState(props.linksTo)
+        setInitial(props.linksTo)
         
-        navLinks.forEach(link => {
-          if ( link !== currentLink.value ) link.classList.remove('isActive')
+        handleShuttleIn()
+        
+        const scrollTo = props.link.refNode
+        if ( scrollTo.id === 'intro') window.scroll({ top: 0, behavior: 'smooth'})
+        else scrollTo.scrollIntoView({ behavior: 'smooth' })
+      }
+
+      const handleShuttleIn = () => {
+        const config = configure(currentItem)
+
+        currentItem.value.classList.add('active')
+
+        config.linkList.forEach(link => {
+          if ( link.dataset.link !== props.linksTo) link.classList.remove('active')
         })
 
-        currentLink.value.classList.add('isActive')
+        config.shuttle.style.left = `${config.linkPosition}px`
+        config.shuttle.style.width = `${config.linkWidth}px`
       }
 
-      watch(route, () => {
-        scroll.value = route.route
-      })
+      const handleShuttleOut = () => {
+        let initialLink = Array.from(props.parentNode.children[0])
+        const config = configure(initialLink)
+
+        config.linkList.forEach(link => {
+          link.classList.remove('active')
+          if ( link.dataset.link === store.state.initial ) {
+            link.classList.add('active')
+            initialLink = link
+          }
+        })
+
+        const update = config.update(initialLink)
+
+        config.shuttle.style.left = `${update.linkPosition}px`
+        config.shuttle.style.width = `${update.linkWidth}px`
+      }
 
       return {
-        route,
-        scrollTo,
-        scroll,
-        currentLink
+        props,
+        handleScroll,
+        handleShuttleIn,
+        handleShuttleOut,
+        currentItem,
       }
     }
   }

@@ -5,17 +5,13 @@
 </template>
 
 <script>
-  import { useTest } from '~/stores/test'
+  import { useNavState } from '~/stores/nav-state'
   import { ref, onMounted } from 'vue'
 
   export default {
     setup () {
       const section = ref(null)
-      const store = useTest()
-      const fuck = {
-        prop1: 'this shit',
-        id: 'section-two'
-      }
+      const store = useNavState()
 
       onMounted(() => {
         store.setRefNode(section)

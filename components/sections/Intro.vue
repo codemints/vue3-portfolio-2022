@@ -13,25 +13,22 @@
   import { ref, onMounted } from 'vue'
   import { headerHeight } from 'state/component-info'
   import { cNameRef as names } from 'state/class-names'
-  import { sectionRoutes as sRoutes } from 'state/routed'
+  import { useNavState } from '~/stores/nav-state'
 
   export default {
     setup () {
-      const section = ref(0)
+      const section = ref(null)
+      const store = useNavState()
 
       const scrollTo = () => {
         console.log('clicked')
       }
 
       onMounted(() => {
-        const sectionId = section.value.id
-
+        store.setRefNode(section)
+        
         const height = (window.innerHeight - headerHeight.value) / 10
         section.value.style.height = `${height}rem`
-
-        sRoutes.value.forEach(route => {
-          if ( sectionId === route.scrollTo ) route.route = section.value
-        })
       })
 
       return {
