@@ -72,13 +72,14 @@
     }
 
     .logo__container {
-      $gap: 2rem;
+      $gap: 1rem;
       
-      display: grid;
-      grid-template-columns: repeat(9, 1fr);
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
       grid-gap: $gap;
       
-      max-width: 80vw;
+      max-width: 65vw;
       margin-inline: auto;
       margin-top: 2rem;
 

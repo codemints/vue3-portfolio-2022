@@ -22,7 +22,13 @@
       </h1>
       <h3 class="[ intro__subtitle ]" :class="names.subTitles">And I'm A <span class="[ block__hover ]">Creative</span> Frontend <span class="[ block__hover ]">Developer</span> With Roots In <span class="[ block__hover ]">Design</span></h3>
 
-      <GlobalsButton :onClick="scrollTo" dataType="primary" :classNames="[ 'bg-theme-orange', 'text-theme-100', 'mt-20', 'mx-auto' ]">Let's Work Together</GlobalsButton>
+      <GlobalsButton
+        :onClick="scrollTo"
+        dataType="primary"
+        :classNames="[ 'bg-theme-orange', 'text-theme-100', 'mt-20', 'mx-auto' ]"
+      >
+        Let's Work Together
+      </GlobalsButton>
     </div>
   </section>
 </template>
@@ -54,10 +60,12 @@
   
   section {
     display: flex;
-    align-items: center;
+    // align-items: center;
     justify-content: center;
 
     text-align: center;
+
+    transform: translateY(27%);
 
     h1,
     h1 span {

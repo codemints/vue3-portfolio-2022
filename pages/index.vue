@@ -1,5 +1,6 @@
 <template>
   <div id="root">
+    <GlobalsCursor />
     <Header/>
     <SectionsIntro />
     <SectionsAbout />
@@ -42,9 +43,9 @@
   @use 'scss/abstracts/variables' as *;
 
   #root {
-    background-image: 
-      linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
-      url('img/lightbg-section-01.png');
+    // background-image: 
+    //   linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
+      // url('img/lightbg-section-01.png');
     min-width: 100vw;
     min-height: 100vh;
     background-color: $theme-100;
@@ -52,9 +53,9 @@
 
   }
   .dark #root {
-    background-image:
-      linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-      url('img/darkbg-section-01.png');
+    // background-image:
+    //   linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    //   url('img/darkbg-section-01.png');
     background-color: $theme-800;
   }
   

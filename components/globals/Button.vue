@@ -3,29 +3,28 @@
     class="[ block px-12 py-6 text-3xl lowercase w-max ] [ button ]"
     @click="onClick"
     :class="classNames"
-    :data-button="dataType">
+    :data-button="dataType"
+    ref="thisButton"
+  >
     
     <slot>Button</slot>
   </button>
 </template>
 
-<script>
-  export default {
-    props: {
-      onClick: {
-        type: Function,
-        required: false,
-      },
-      classNames: {
-        type: Array,
-        required: false,
-      },
-      dataType: {
-        type: String,
-        required: false,
-      }
-    }
-  }
+<script setup>
+  import { ref, onMounted } from 'vue'
+  import { siteButtons } from '~/stores/buttons'
+
+  const props = defineProps(['onClick', 'classNames', 'dataType'])
+
+  
+  const buttonStore = siteButtons()
+  const thisButton = ref(null)
+
+  onMounted(() => {
+    buttonStore.addButton(thisButton)
+  })
+  
 </script>
 
 <style lang="scss" scoped>

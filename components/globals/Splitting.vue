@@ -12,10 +12,10 @@
         specialChars.includes(char) ? specialClass : '',
         extraClasses
       ]"
-      :ref="setRefs"
       :data-char="char.toLowerCase()"
-      @mouseover.stop.prevent="emit('hover', elementRefs[getSequentialIndex(charIndex, word.startingIndex)])"
-      @mouseout.stop.prevent="emit('unhover', elementRefs[getSequentialIndex(charIndex, word.startingIndex)])"
+      :ref="setRefs"
+      @mouseover.stop.prevent="emit('hover', elementRefs[sequencedIndex(charIndex, word.startingIndex)])"
+      @mouseout.stop.prevent="emit('unhover', elementRefs[sequencedIndex(charIndex, word.startingIndex)])"
     >
       {{ char }}
     </span>
@@ -43,7 +43,7 @@
       const elementRefs = ref([])
       
       //METHODS
-      const getSequentialIndex = (index, startAt) => {
+      const sequencedIndex = (index, startAt) => {
         return index + startAt
       }
       
@@ -52,7 +52,7 @@
       }
     
       const getCharClass = (index, startAt) => {
-        return `${props.charClass} ${props.charClass}__index-${getSequentialIndex(index, startAt)}`
+        return `${props.charClass} ${props.charClass}__index-${sequencedIndex(index, startAt)}`
       }
 
       const setRefs = el => {
@@ -87,7 +87,7 @@
       return {
         ...props,
         emit,
-        getSequentialIndex,
+        sequencedIndex,
         getWordClass,
         getCharClass,
         splitContent,

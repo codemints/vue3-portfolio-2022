@@ -69,5 +69,5 @@ export default defineNuxtConfig({
     vue: {
       reactivityTransform: true,
     }
-  }
+  },
 });
