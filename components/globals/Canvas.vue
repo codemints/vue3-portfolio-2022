@@ -1,5 +1,9 @@
 <template>
-  <canvas id="intro__canvas" ref="thisCanvas"></canvas>
+  <canvas
+    @click="spawnNewCircle"
+    id="intro__canvas"
+    ref="thisCanvas"
+  ></canvas>
 </template>
 
 <script setup>
@@ -19,8 +23,6 @@
       light: ['#ff5850', '#00a7af'],
     }
   })
-
-
 
   const {
     setCircleData,
@@ -43,12 +45,13 @@
     setCircleData({
       canvas: thisCanvas.value,
       seedColors: mode.value === false ? colors.seed.light : colors.seed.dark,
-      clickColor: mode.value === false ? colors.click.light : colors.click.dark,
-      maxSize: 150,
+      clickColors: mode.value === false ? colors.click.light : colors.click.dark,
+      maxSize: 120,
       minSize: 10,
-      maxPop: 15,
-      minPop: 10,
+      maxPop: 13,
+      minPop: 8,
       velocity: 0.125,
+      offset: headerHeight
     })
     drawToCanvas();
   })

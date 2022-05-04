@@ -5,7 +5,8 @@
     ref="section"
   >
     <GlobalsCanvas />
-    <div class="[ intro__content ]">
+    <Controls />
+    <div class="[ intro__content ]" ref="heroText">
       <h1
         class="[ intro__title ]"
         :class="names.titles"
@@ -40,8 +41,10 @@
   import { cNameRef as names } from 'state/class-names'
   import { useNavState } from '@/stores/nav-state'
   import { handleHoverClass } from '@/composables/animationHelpers'
+  import Controls from 'comp/globals/Controls.vue'
 
   const section = ref(null)
+  const heroText = ref(null)
   const store = useNavState()
   const text = ref('hello. my name is lt.')
 

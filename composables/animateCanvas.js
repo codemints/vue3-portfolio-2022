@@ -67,6 +67,7 @@ const animateCanvas = () => {
     $_.initVelocity = obj.velocity
     $_.frame = -1
     $_.circles = populateCircles(obj.minPop, obj.maxPop, obj.minSize, obj.maxSize)
+    $_.offset = obj.offset
   }
 
 
@@ -96,8 +97,9 @@ const animateCanvas = () => {
   }
 
   const spawnNewCircle = (e) => {
+    console.log(e)
     const rad = getRandomNumber($_.minSize, $_.maxSize)
-    $_.circles.push(new Circle(e.clientX, e.clientY, rad, getRandomColor($_.clickColors)))
+    $_.circles.push(new Circle(e.clientX, e.clientY - $_.offset, rad, getRandomColor($_.clickColors)))
   }
 
   const changeVelocity = (e) => {
