@@ -4,6 +4,7 @@
     class="[ page__section ]"
     ref="section"
   >
+    <GlobalsCanvas />
     <div class="[ intro__content ]">
       <h1
         class="[ intro__title ]"
@@ -37,8 +38,9 @@
   import { ref, onMounted } from 'vue'
   import { headerHeight } from 'state/component-info'
   import { cNameRef as names } from 'state/class-names'
-  import { useNavState } from '~/stores/nav-state'
+  import { useNavState } from '@/stores/nav-state'
   import { handleHoverClass } from '@/composables/animationHelpers'
+
   const section = ref(null)
   const store = useNavState()
   const text = ref('hello. my name is lt.')
@@ -60,12 +62,17 @@
   
   section {
     display: flex;
-    // align-items: center;
+    align-items: center;
     justify-content: center;
 
     text-align: center;
 
-    transform: translateY(27%);
+    position: relative;
+
+    .intro__content {
+      position: relative;
+      transform: translateY(-12%);
+    }
 
     h1,
     h1 span {
