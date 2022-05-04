@@ -4,8 +4,6 @@
     class="[ page__section ]"
     ref="section"
   >
-    <GlobalsCanvas />
-    <Controls />
     <div class="[ intro__content ]" ref="heroText">
       <h1
         class="[ intro__title ]"
@@ -32,6 +30,11 @@
         Let's Work Together
       </GlobalsButton>
     </div>
+    
+    <GlobalsCanvas/>
+    <Controls
+      :hide="heroText"
+    />
   </section>
 </template>
 
@@ -64,9 +67,9 @@
   @use 'scss/abstracts/variables' as *;
   
   section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
 
     text-align: center;
 
@@ -74,7 +77,13 @@
 
     .intro__content {
       position: relative;
-      transform: translateY(-12%);
+      top: 50%;
+
+      max-height: 100%;
+
+      transform: translateY(-60%);
+      transition: $base;
+      z-index: 1;
     }
 
     h1,

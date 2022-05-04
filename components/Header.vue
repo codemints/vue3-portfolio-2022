@@ -120,7 +120,7 @@ export default {
   #header__nav {
     position: fixed;
     top: 0;
-    z-index: 2;
+    z-index: 10;
   }
     
   .site__header {

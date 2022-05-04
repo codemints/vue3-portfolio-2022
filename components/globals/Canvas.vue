@@ -28,10 +28,6 @@
     setCircleData,
     drawToCanvas,
     spawnNewCircle,
-    changeVelocity,
-    clearCanvas,
-    toggleAnimation,
-    redrawCanvas,
     updateCircleColor,
   } = animateCanvas()
 
@@ -62,5 +58,6 @@
     position: absolute;
     top: 0;
     background-color: transparent;
+    z-index: 0;
   }
 </style>

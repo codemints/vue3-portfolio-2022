@@ -97,7 +97,6 @@ const animateCanvas = () => {
   }
 
   const spawnNewCircle = (e) => {
-    console.log(e)
     const rad = getRandomNumber($_.minSize, $_.maxSize)
     $_.circles.push(new Circle(e.clientX, e.clientY - $_.offset, rad, getRandomColor($_.clickColors)))
   }
