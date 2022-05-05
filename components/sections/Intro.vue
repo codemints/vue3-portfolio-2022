@@ -31,10 +31,10 @@
       </GlobalsButton>
     </div>
     
-    <GlobalsCanvas/>
     <Controls
       :hide="heroText"
     />
+    <GlobalsCanvas/>
   </section>
 </template>
 
@@ -67,10 +67,6 @@
   @use 'scss/abstracts/variables' as *;
   
   section {
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-
     text-align: center;
 
     position: relative;
@@ -80,7 +76,9 @@
       top: 50%;
 
       max-height: 100%;
+      width: max-content;
 
+      margin-inline: auto;
       transform: translateY(-60%);
       transition: $base;
       z-index: 1;

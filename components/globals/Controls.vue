@@ -15,7 +15,7 @@
       </div>
       <transition name="show">
         <div
-          class="[ controls__container ] [ bg-white dark:bg-theme-500 ]"
+          class="[ controls__container ] [ bg-white dark:bg-theme-700 ]"
           :class="{ isCollapsed: !controlsOpen }"
         >
           <div class="[ controls__intro ]">
@@ -47,29 +47,34 @@
               >
                 v.decrease()
               </GlobalsControlButton>
+              
             </div>
+            
             <div class="[ canvas__controls ]">
               <GlobalsControlButton
                 dataFunction="clear"
                 dataButton="neutral"
-                :click="clearCanvas"
+                :click="canvasClear"
               >
                 ctx.clear()
               </GlobalsControlButton>
+              
               <GlobalsControlButton
                 dataFunction="stop"
                 dataButton="neutral"
-                :click="toggleAnimation"
+                :click="canvasStop"
               >
-                ctx.stop()
+                ctx.{{ suspend === true ? 'start' : 'stop' }}()
               </GlobalsControlButton>
+              
               <GlobalsControlButton
                 dataFunction="redraw"
                 dataButton="neutral"
-                :click="redrawCanvas"
+                :click="canvasRedraw"
               >
                 ctx.redraw()
               </GlobalsControlButton>
+              
             </div>
           </div>
         </div>
@@ -79,16 +84,52 @@
 </template>
 
 <script setup>
-  import { ref, watch } from 'vue'
+  import { ref, watch, reactive } from 'vue'
   import ControlButton from 'comp/globals/ControlButton.vue'
-  import animateCanvas from '@/composables/animateCanvas'
+  import useCircles from '@/stores/circles'
   
   const props = defineProps(['hide'])
   const heroText = ref(props.hide)
   const heroHeight = ref(null)
   const isVisible = ref(true)
+  const showToast = reactive({
+    show: false,
+    msg: null
+  })
 
   const controlsOpen = ref(false)
+  const suspend = ref(false)
+
+  const canvasStop = () => {
+    if ( toggleAnimation() === false ) {
+      showToast = {
+        show: true,
+        msg: 'Please redraw the canvas before stopping animation [ ctx.redraw() ]'
+      }
+      console.log(showToast.show)
+      return setTimeout(() => showToast.show = false, 3000)
+    }
+    suspend.value = !suspend.value
+    const toggle = toggleAnimation(suspend.value)
+  }
+
+  const canvasRedraw = () => {
+    const redraw = redrawCanvas()
+    if ( redraw === false ) {
+      showToast = {
+        show: true,
+        msg: 'Please clear the canvas before a redraw [ ctx.clear() ]'
+      }
+      console.log(showToast.show)
+      return setTimeout(() => showToast.show = false, 3000)
+    }
+    if ( suspend.value === true ) suspend.value = false
+  }
+
+  const canvasClear = () => {
+    clearCanvas()
+    if ( suspend.value === true ) suspend.value = false
+  }
 
   const toggleElement = () => {
     isVisible.value = !isVisible.value
@@ -106,7 +147,7 @@
     }
   }
   
-  watch(() => props.hide, (newVal, oldVal) => {
+  watch(() => props.hide, (newVal) => {
     heroText.value = newVal
     heroHeight.value = newVal.offsetHeight
   })
@@ -116,7 +157,7 @@
     clearCanvas,
     toggleAnimation,
     redrawCanvas,
-  } = animateCanvas()
+  } = useCircles()
 
 </script>
 
@@ -144,7 +185,7 @@
   .controls__tab {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 0.015rem;
 
     display: flex;
     align-items: center;
@@ -208,13 +249,12 @@
 
     opacity: 1;
     overflow: hidden;
-    transition: $base;
+    transition: $base2;
     z-index: 0;
 
     &.isCollapsed {
       padding: 0;
       width: 0;
-      opacity: 0;
     }
   }
 

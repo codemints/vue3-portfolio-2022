@@ -9,7 +9,7 @@
 <script setup>
   import { ref, onMounted, reactive, watch } from 'vue'
   import { mode } from '@/composables/dark-mode'
-  import animateCanvas from '@/composables/animateCanvas'
+  import useCircles from '@/stores/circles'
   import { headerHeight } from 'state/component-info'
 
   const thisCanvas = ref(null)
@@ -25,20 +25,24 @@
   })
 
   const {
+    circleData,
     setCircleData,
     drawToCanvas,
     spawnNewCircle,
     updateCircleColor,
-  } = animateCanvas()
+    changeVelocity,
+  } = useCircles()
 
   watch(mode, (newVal) => {
     setTimeout(() => updateCircleColor(newVal), 100)
   })
 
+  watch(() => circleData, (newVal) => console.log(newVal))
+
   onMounted(() => {
     thisCanvas.value.height = window.innerHeight - headerHeight.value
     thisCanvas.value.width = window.innerWidth
-    setCircleData({
+    const circleConfig = setCircleData({
       canvas: thisCanvas.value,
       seedColors: mode.value === false ? colors.seed.light : colors.seed.dark,
       clickColors: mode.value === false ? colors.click.light : colors.click.dark,
@@ -49,7 +53,11 @@
       velocity: 0.125,
       offset: headerHeight
     })
-    drawToCanvas();
+    drawToCanvas()
+    circleConfig.circles.forEach(circle => {
+      circle.dx *= 0.75
+      circle.dy *= 0.75
+    })
   })
 </script>
 

@@ -3,9 +3,9 @@
     :data-function="dataFunction"
     :data-button="dataButton"
     :class="{isActive: isActive}"
-    @click="click"
-    @mousedown="isActive = true"
-    @mouseup="isActive = false"
+    @click.stop.prevent="click($event)"
+    @mousedown.stop.prevent="isActive = true"
+    @mouseup.stop.prevent="isActive = false"
   >
     <slot>Fill This In</slot>
   </button>
@@ -21,9 +21,6 @@
   ])
 
   const isActive = ref(false)
-
-
-
 </script>
 
 <style lang="scss" scoped>

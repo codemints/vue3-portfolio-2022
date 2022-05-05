@@ -1,6 +1,7 @@
+import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-const animateCanvas = () => {
+const useCircles = defineStore('useCircles', () => {
   const circleData = ref({})
   const $_ = circleData.value
   
@@ -68,6 +69,8 @@ const animateCanvas = () => {
     $_.frame = -1
     $_.circles = populateCircles(obj.minPop, obj.maxPop, obj.minSize, obj.maxSize)
     $_.offset = obj.offset
+
+    return $_
   }
 
 
@@ -83,7 +86,6 @@ const animateCanvas = () => {
       let color = getRandomColor($_.seedColors)
       circles.push(new Circle(x, y, rad, color))
     }
-
     return circles
   }
   
@@ -97,51 +99,63 @@ const animateCanvas = () => {
   }
 
   const spawnNewCircle = (e) => {
+    if ( $_.suspend === true ) return
     const rad = getRandomNumber($_.minSize, $_.maxSize)
     $_.circles.push(new Circle(e.clientX, e.clientY - $_.offset, rad, getRandomColor($_.clickColors)))
   }
 
   const changeVelocity = (e) => {
     const method = e.target.dataset.function
-    method === 'increase' ? $_.velocity += 0.25 : $_.velocity -= 0.25
+    method === 'increase' ? $_.velocity += 0.375 : $_.velocity -= 0.375
+    
     $_.circles.forEach(circle => {
       if ( method === 'increase' ) {
-        circle.dx *= 1.125
-        circle.dy *= 1.125
+        circle.dx *= 1.25
+        circle.dy *= 1.25
       } else {
-        circle.dx *= 0.875
-        circle.dy *= 0.875
+        circle.dx *= 0.75
+        circle.dy *= 0.75
       }
     })
   }
   
   const clearCanvas = () => {
+    $_.suspend = true
+    $_.stopped = false
     cancelAnimationFrame($_.frame)
     $_.ctx.clearRect(0, 0, $_.canvas.width, $_.canvas.height)
     $_.velocity = $_.initVelocity
     $_.circles = populateCircles($_.minPop, $_.maxPop, $_.minSize, $_.maxSize)
-
-    $_.redrawn = false
-    $_.cleared = true
+    $_.prevFn = 'clear'
   }
   
-  const toggleAnimation = () => {
-    if ( $_.cleared === true ) return false
-    if ( $_.stopped ) {
-      $_.frame = requestAnimationFrame(drawToCanvas)
-      return $_.stopped = false
+  const toggleAnimation = (state) => {
+    if ( $_.prevFn === 'clear' ) return false
+    if ( state === false ) {
+      requestAnimationFrame(drawToCanvas)
+      $_.suspend = false
+      $_.prevFn = 'toggle'
+    } else {
+      cancelAnimationFrame($_.frame)
+      $_.suspend = true
+      $_.stopped = true
+      $_.prevFn = 'toggle'
     }
-    cancelAnimationFrame($_.frame)
-    $_.stopped = true
-
-    return true
   }
   
   const redrawCanvas = () => {
-    if ( $_.redrawn === true || $_.redrawn === undefined ) return
+    if ( $_.suspend === false || $_.suspend === undefined || $_.stopped === true ) return false
+    modifyVelocity()
     $_.frame = requestAnimationFrame(drawToCanvas)
-    $_.redrawn = true
-    $_.cleared = false
+    $_.suspend = false
+    $_.prevFn = 'redraw'
+  }
+
+  const modifyVelocity = () => {
+    $_.circles.forEach(circle => {
+      circle.dx *= 0.5
+      circle.dy *= 0.5
+    })
   }
 
   const updateCircleColor = (modeVal) => {
@@ -169,6 +183,6 @@ const animateCanvas = () => {
     redrawCanvas,
     updateCircleColor,
   }
-}
+})
 
-export default animateCanvas
+export default useCircles
