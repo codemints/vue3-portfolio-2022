@@ -102,11 +102,8 @@
 
   const canvasStop = () => {
     if ( toggleAnimation() === false ) {
-      showToast = {
-        show: true,
-        msg: 'Please redraw the canvas before stopping animation [ ctx.redraw() ]'
-      }
-      console.log(showToast.show)
+      showToast.show = true,
+      showToast.msg = 'Please redraw the canvas before stopping animation [ ctx.redraw() ]'
       return setTimeout(() => showToast.show = false, 3000)
     }
     suspend.value = !suspend.value
@@ -116,11 +113,8 @@
   const canvasRedraw = () => {
     const redraw = redrawCanvas()
     if ( redraw === false ) {
-      showToast = {
-        show: true,
-        msg: 'Please clear the canvas before a redraw [ ctx.clear() ]'
-      }
-      console.log(showToast.show)
+      showToast.show = true,
+      showToast.msg = 'Please clear the canvas before a redraw [ ctx.clear() ]'
       return setTimeout(() => showToast.show = false, 3000)
     }
     if ( suspend.value === true ) suspend.value = false
