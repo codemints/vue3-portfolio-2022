@@ -99,9 +99,10 @@ const useCircles = defineStore('useCircles', () => {
   }
 
   const spawnNewCircle = (e) => {
+    const wScrollY = window.scrollY
     if ( $_.suspend === true ) return
     const rad = getRandomNumber($_.minSize, $_.maxSize)
-    $_.circles.push(new Circle(e.clientX, e.clientY - $_.offset, rad, getRandomColor($_.clickColors)))
+    $_.circles.push(new Circle(e.clientX, (e.clientY - $_.offset) + wScrollY, rad, getRandomColor($_.clickColors)))
   }
 
   const changeVelocity = (e) => {
@@ -159,6 +160,7 @@ const useCircles = defineStore('useCircles', () => {
   }
 
   const updateCircleColor = (modeVal) => {
+    console.log(modeVal)
     $_.circles.forEach(circle => {
       if ( modeVal === true ) {
         if ( circle.color === '#eff2f6' ) circle.color = '#323e4c'

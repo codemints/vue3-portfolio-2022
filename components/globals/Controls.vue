@@ -1,5 +1,5 @@
 <template>
-  <div class="[ modal__controls ]">
+  <div ref="controlModal" class="[ modal__controls ]">
     <div class="[ modal__inner ]">
       <div
         @click="controlsOpen = !controlsOpen"
@@ -59,6 +59,12 @@
                 ctx.clear()
               </GlobalsControlButton>
               
+              <Teleport to="body">
+                <Toast
+                  :toastData="toastData"
+                />
+              </Teleport>
+              
               <GlobalsControlButton
                 dataFunction="stop"
                 dataButton="neutral"
@@ -84,27 +90,44 @@
 </template>
 
 <script setup>
-  import { ref, watch, reactive } from 'vue'
+  //IMPORTS
+  import { ref, watch, reactive, onMounted } from 'vue'
   import ControlButton from 'comp/globals/ControlButton.vue'
   import useCircles from '@/stores/circles'
+  import Toast from './Toast.vue';
+  import { mode } from '@/composables/dark-mode'
   
-  const props = defineProps(['hide'])
+  //PROPS
+  const props = defineProps(['hide', 'canvasClick'])
+
+  //DATA
+  const controlModal = ref(null)
   const heroText = ref(props.hide)
   const heroHeight = ref(null)
   const isVisible = ref(true)
-  const showToast = reactive({
+  const controlsOpen = ref(false)
+  const suspend = ref(false)
+  const toastData = reactive({
     show: false,
     msg: null
   })
+  
+  //STATE
+  const {
+    changeVelocity,
+    clearCanvas,
+    toggleAnimation,
+    redrawCanvas,
+    updateCircleColor,
+  } = useCircles()
 
-  const controlsOpen = ref(false)
-  const suspend = ref(false)
 
+  //METHODS
   const canvasStop = () => {
     if ( toggleAnimation() === false ) {
-      showToast.show = true,
-      showToast.msg = 'Please redraw the canvas before stopping animation [ ctx.redraw() ]'
-      return setTimeout(() => showToast.show = false, 3000)
+      toastData.show = true,
+      toastData.msg = 'Please redraw the canvas before stopping animation. [ ctx.redraw() ]'
+      return setTimeout(() => toastData.show = false, 2750)
     }
     suspend.value = !suspend.value
     const toggle = toggleAnimation(suspend.value)
@@ -113,9 +136,9 @@
   const canvasRedraw = () => {
     const redraw = redrawCanvas()
     if ( redraw === false ) {
-      showToast.show = true,
-      showToast.msg = 'Please clear the canvas before a redraw [ ctx.clear() ]'
-      return setTimeout(() => showToast.show = false, 3000)
+      toastData.show = true,
+      toastData.msg = 'Please clear the canvas before a redraw. [ ctx.clear() ]'
+      return setTimeout(() => toastData.show = false,2750)
     }
     if ( suspend.value === true ) suspend.value = false
   }
@@ -140,18 +163,41 @@
       setTimeout(() => heroText.value.style.overflow = 'visible', 300)
     }
   }
-  
+
+  const handleReset = () => {
+    if ( window.scrollY < controlModal.value.offsetTop ) handleReset.kill = false
+    if ( handleReset.kill === true ) return
+    if ( window.scrollY > controlModal.value.offsetTop + 500 ) {
+      isVisible.value = true
+      controlsOpen.value = false
+      
+      heroText.value.style.opacity = 1
+      heroText.value.style.maxHeight = `${heroHeight.value / 10}rem`
+      setTimeout(() => heroText.value.style.overflow = 'visible', 300)
+
+      clearCanvas()
+      redrawCanvas()
+      updateCircleColor(mode.value)
+      
+      handleReset.kill = true
+    }
+  }
+
+  //WATCHERS
   watch(() => props.hide, (newVal) => {
     heroText.value = newVal
     heroHeight.value = newVal.offsetHeight
   })
 
-  const {
-    changeVelocity,
-    clearCanvas,
-    toggleAnimation,
-    redrawCanvas,
-  } = useCircles()
+  watch(() => props.canvasClick, (newVal) => {
+    controlsOpen.value = false
+  })
+
+  //LIFECYCLE
+  onMounted(() => {
+    
+    window.addEventListener('scroll', handleReset)
+  })
 
 </script>
 

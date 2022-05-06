@@ -14,17 +14,22 @@
 <script>
   import { mode } from 'state/dark-mode'
   import { ref, onMounted, watch } from 'vue'
+  import { siteButtons } from '@/stores/buttons'
+  import { initButtonAnimations } from '@/composables/animationHelpers'
 
   export default {
     setup () {
       const root = ref(null)
       const body = ref(null)
+      const { buttons } = siteButtons()
 
       onMounted(() => {
         root.value = document.documentElement
         body.value = document.body
         if ( mode.value === true ) root.value.classList.add('dark')
         else root.value.classList.remove('dark')
+
+        initButtonAnimations(buttons)
       })
 
       watch(mode, () => {        

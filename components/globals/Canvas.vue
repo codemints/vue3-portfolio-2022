@@ -1,6 +1,7 @@
 <template>
   <canvas
     @click="spawnNewCircle"
+    @mousedown="emit('canvasClick')"
     id="intro__canvas"
     ref="thisCanvas"
   ></canvas>
@@ -11,6 +12,8 @@
   import { mode } from '@/composables/dark-mode'
   import useCircles from '@/stores/circles'
   import { headerHeight } from 'state/component-info'
+
+  const emit = defineEmits(['canvasClick'])
 
   const thisCanvas = ref(null)
   const colors = reactive({
@@ -36,8 +39,6 @@
   watch(mode, (newVal) => {
     setTimeout(() => updateCircleColor(newVal), 100)
   })
-
-  watch(() => circleData, (newVal) => console.log(newVal))
 
   onMounted(() => {
     thisCanvas.value.height = window.innerHeight - headerHeight.value

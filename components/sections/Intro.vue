@@ -26,15 +26,18 @@
         :onClick="scrollTo"
         dataType="primary"
         :classNames="[ 'bg-theme-orange', 'text-theme-100', 'mt-20', 'mx-auto' ]"
-      >
-        Let's Work Together
-      </GlobalsButton>
+        text="Let's Work Together"
+        hovText="Contact Me Today"
+      />
     </div>
     
     <Controls
       :hide="heroText"
+      :canvasClick="canvasClick"
     />
-    <GlobalsCanvas/>
+    <GlobalsCanvas
+      @canvasClick="canvasClick = !canvasClick"
+    />
   </section>
 </template>
 
@@ -48,6 +51,7 @@
 
   const section = ref(null)
   const heroText = ref(null)
+  const canvasClick = ref(false)
   const store = useNavState()
   const text = ref('hello. my name is lt.')
 
@@ -97,6 +101,14 @@
 
     .button {
       margin-top: 5rem;
+      width: 30rem;
+
+      transition: $base;
+
+      &:hover {
+        background-color: $theme-200;
+        color: $theme-600;
+      }
     }
   }
 

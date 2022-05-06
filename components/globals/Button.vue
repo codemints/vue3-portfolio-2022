@@ -2,12 +2,13 @@
   <button
     class="[ block px-12 py-6 text-3xl lowercase w-max ] [ button ]"
     @click="onClick"
+    @mouseover="isHovered = true"
+    @mouseout="isHovered = false"
     :class="classNames"
     :data-button="dataType"
     ref="thisButton"
   >
-    
-    <slot>Button</slot>
+    {{ isHovered ? hovText : text }}
   </button>
 </template>
 
@@ -15,14 +16,15 @@
   import { ref, onMounted } from 'vue'
   import { siteButtons } from '~/stores/buttons'
 
-  const props = defineProps(['onClick', 'classNames', 'dataType'])
+  const props = defineProps(['onClick', 'classNames', 'dataType', 'text', 'hovText'])
 
   
   const buttonStore = siteButtons()
   const thisButton = ref(null)
+  const isHovered = ref(false)
 
   onMounted(() => {
-    buttonStore.addButton(thisButton)
+    buttonStore.addButton(thisButton.value)
   })
   
 </script>

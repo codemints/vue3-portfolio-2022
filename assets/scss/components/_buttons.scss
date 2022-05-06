@@ -1,1 +1,5 @@
 @use 'scss/abstracts/variables' as *;
+
+div.cursor__block.button__hover {
+  border-color: $theme-blue;
+}

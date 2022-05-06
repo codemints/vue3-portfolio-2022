@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export const siteButtons = defineStore('buttons', () => {
+export const siteButtons = defineStore('siteButtons', () => {
   const buttons = ref([])
 
   const addButton = (elRef) => {

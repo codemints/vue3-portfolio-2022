@@ -42,6 +42,7 @@
     border-radius: 50%;
 
     pointer-events: none;
+    transition: all 0.2s cubic-bezier(.39,.575,.565,1);
     z-index: 1000;
   }
 
