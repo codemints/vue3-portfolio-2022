@@ -48,12 +48,17 @@
   import { useNavState } from '@/stores/nav-state'
   import { handleHoverClass } from '@/composables/animationHelpers'
   import Controls from 'comp/globals/Controls.vue'
+  import gsapAnimations from '@/composables/gsapAnimations'
 
   const section = ref(null)
   const heroText = ref(null)
   const canvasClick = ref(false)
   const store = useNavState()
-  const text = ref('hello. my name is lt.')
+  const text = ref('Hello. My Name is LT.')
+
+  const {
+
+  } = gsapAnimations()
 
   const scrollTo = () => {
     console.log('clicked')
@@ -64,6 +69,8 @@
     
     const height = (window.innerHeight - headerHeight.value) / 10
     section.value.style.height = `${height}rem`
+
+    initGsap()
   })
 </script>
 

@@ -160,7 +160,6 @@ const useCircles = defineStore('useCircles', () => {
   }
 
   const updateCircleColor = (modeVal) => {
-    console.log(modeVal)
     $_.circles.forEach(circle => {
       if ( modeVal === true ) {
         if ( circle.color === '#eff2f6' ) circle.color = '#323e4c'
