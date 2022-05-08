@@ -16,16 +16,6 @@
   const emit = defineEmits(['canvasClick'])
 
   const thisCanvas = ref(null)
-  const colors = reactive({
-    seed: {
-      dark: ['#212933', '#323e4c'],
-      light: ['#dde4ec', '#eff2f6'],
-    },
-    click: {
-      dark: ['#ff5850', '#00a7af'],
-      light: ['#ff5850', '#00a7af'],
-    }
-  })
 
   const {
     circleData,
@@ -36,8 +26,8 @@
     changeVelocity,
   } = useCircles()
 
-  watch(mode, (newVal) => {
-    setTimeout(() => updateCircleColor(newVal), 100)
+  watch(mode, () => {
+    setTimeout(() => updateCircleColor(), 100)
   })
 
   onMounted(() => {
@@ -45,8 +35,6 @@
     thisCanvas.value.width = window.innerWidth
     const circleConfig = setCircleData({
       canvas: thisCanvas.value,
-      seedColors: mode.value === false ? colors.seed.light : colors.seed.dark,
-      clickColors: mode.value === false ? colors.click.light : colors.click.dark,
       maxSize: 120,
       minSize: 10,
       maxPop: 13,

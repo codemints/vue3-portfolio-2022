@@ -1,8 +1,16 @@
 import { defineStore } from 'pinia'
+import { mode } from '@/composables/dark-mode'
 import { ref } from 'vue'
 
 const useCircles = defineStore('useCircles', () => {
-  const circleData = ref({})
+  const circleData = ref({
+    dark: ['#212933', '#323e4c'],
+    light: ['#dde4ec', '#eff2f6'],
+    seed: mode === true ? ['#212933', '#323e4c'] : ['#dde4ec', '#eff2f6'],
+    click: ['#ff5850', '#00a7af'],
+  })
+  
+
   const $_ = circleData.value
   
   //FUNCTION METHODS
@@ -58,8 +66,6 @@ const useCircles = defineStore('useCircles', () => {
   const setCircleData = (obj) => {
     $_.canvas = obj.canvas
     $_.ctx = obj.canvas.getContext('2d')
-    $_.seedColors = obj.seedColors
-    $_.clickColors = obj.clickColors
     $_.maxSize = obj.maxSize
     $_.minSize = obj.minSize
     $_.maxPop = obj.maxPop
@@ -83,7 +89,7 @@ const useCircles = defineStore('useCircles', () => {
       let rad = getRandomNumber(minSize, maxSize)
       let x = setRandomPostion('width', rad)
       let y = setRandomPostion('height', rad)
-      let color = getRandomColor($_.seedColors)
+      let color = getRandomColor($_.seed)
       circles.push(new Circle(x, y, rad, color))
     }
     return circles
@@ -102,7 +108,7 @@ const useCircles = defineStore('useCircles', () => {
     const wScrollY = window.scrollY
     if ( $_.suspend === true ) return
     const rad = getRandomNumber($_.minSize, $_.maxSize)
-    $_.circles.push(new Circle(e.clientX, (e.clientY - $_.offset) + wScrollY, rad, getRandomColor($_.clickColors)))
+    $_.circles.push(new Circle(e.clientX, (e.clientY - $_.offset) + wScrollY, rad, getRandomColor($_.click)))
   }
 
   const changeVelocity = (e) => {
@@ -146,6 +152,7 @@ const useCircles = defineStore('useCircles', () => {
   
   const redrawCanvas = () => {
     if ( $_.suspend === false || $_.suspend === undefined || $_.stopped === true ) return false
+    updateCircleColor()
     modifyVelocity()
     $_.frame = requestAnimationFrame(drawToCanvas)
     $_.suspend = false
@@ -159,17 +166,9 @@ const useCircles = defineStore('useCircles', () => {
     })
   }
 
-  const updateCircleColor = (modeVal) => {
-    $_.circles.forEach(circle => {
-      if ( modeVal === true ) {
-        if ( circle.color === '#eff2f6' ) circle.color = '#323e4c'
-        if ( circle.color === '#dde4ec' ) circle.color = '#212933'
-      } else {
-        if ( circle.color === '#323e4c' ) circle.color = '#eff2f6'
-        if ( circle.color === '#212933' ) circle.color = '#dde4ec'
-      }
-
-    })
+  const updateCircleColor = () => {
+    const [scheme, notScheme] = mode.value === false ? ['light', 'dark'] : ['dark', 'light']
+    $_.circles.forEach(circle => circle.color = $_[scheme][$_[notScheme].indexOf(circle.color)])
   }
   
   //RETURNED DATA
