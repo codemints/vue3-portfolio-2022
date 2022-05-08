@@ -53,7 +53,7 @@ const gsapAnimations = () => {
         opacity: 0,
         y: 150,
       },
-      '>0.75'
+      '>0.25'
     )
   }
 

@@ -5,11 +5,11 @@
     <div class="[ toggle__buttons ] [ bg-theme-600 dark:bg-theme-800 ]">
       <div class="[ toggle_inputs ]">
         <label for="toggle__light">Toggle light mode</label>
-        <input class="[ cursor-pointer ]" type="radio" name="toggle-mode" id="toggle__light" @click="setMode(!mode)">
+        <input class="[ cursor-pointer ]" type="radio" name="toggle-mode" id="toggle__light" @click="handleSchemeSwitch">
       </div>
       <div class="[ toggle_inputs ]">
         <label for="toggle__dark">Toggle dark mode</label>
-        <input class="[ cursor-pointer ]" type="radio" name="toggle-mode" id="toggle__dark" @click="setMode(!mode)">
+        <input class="[ cursor-pointer ]" type="radio" name="toggle-mode" id="toggle__dark" @click="handleSchemeSwitch">
       </div>
       <div class="[ switch__wrap ]" :class="{ 'isDark': mode === true }">
         <div class="[ toggle__indicator ] [ bg-theme-blue ]"></div>
@@ -20,17 +20,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
   import { mode, setMode } from 'state/dark-mode'
-
-  export default {
-    setup () {
-      
-      return {
-        mode,
-        setMode,
-      }
-    }
+  
+  const handleSchemeSwitch = () => {
+    setMode(!mode.value)
+    localStorage.setItem('darkMode', mode.value)
   }
 </script>
 

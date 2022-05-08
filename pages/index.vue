@@ -11,37 +11,60 @@
   </div>
 </template>
 
-<script>
-  import { mode } from 'state/dark-mode'
+<script setup>
+  import { mode, setMode } from 'state/dark-mode'
   import { ref, onMounted, watch } from 'vue'
   import { siteButtons } from '@/stores/buttons'
   import { initButtonAnimations } from '@/composables/animationHelpers'
 
-  export default {
-    setup () {
-      const root = ref(null)
-      const body = ref(null)
-      const { buttons } = siteButtons()
+  const root = ref(null)
+  const body = ref(null)
+  const { buttons } = siteButtons()
 
-      onMounted(() => {
-        root.value = document.documentElement
-        body.value = document.body
-        if ( mode.value === true ) root.value.classList.add('dark')
-        else root.value.classList.remove('dark')
+  //METHODS
+  const updatePreferredColorScheme = (method, val) => {
+    setMode(val)
+    root.value.classList[method]('dark')
+    localStorage.setItem('darkMode', mode.value)
+  }
 
-        initButtonAnimations(buttons)
-      })
+  const getPreferredColorScheme = (scheme) => {
+    return window.matchMedia(`(prefers-color-scheme: ${scheme})`)
+  }
 
-      watch(mode, () => {        
-        if ( mode.value === true ) root.value.classList.add('dark')
-        else root.value.classList.remove('dark')
-      })
+  const setPreferredColorScheme = () => {
+    const storedScheme = localStorage.getItem('darkMode')
 
-      return {
-        mode
-      }
+    if ( getPreferredColorScheme('dark').matches && !storedScheme ) {
+      updatePreferredColorScheme('add', true)
+    }
+
+    if ( getPreferredColorScheme('light').matches && !storedScheme ) {
+      updatePreferredColorScheme('remove', false)
+    }
+    
+    if ( storedScheme ) {
+      if ( storedScheme === 'true' ) updatePreferredColorScheme('add', true)
+      if ( storedScheme === 'false' ) updatePreferredColorScheme('remove', false)
     }
   }
+
+  onMounted(() => {
+    root.value = document.documentElement
+    body.value = document.body
+
+    if ( mode.value === true ) root.value.classList.add('dark')
+    else root.value.classList.remove('dark')
+
+    setPreferredColorScheme()
+
+    initButtonAnimations(buttons)
+  })
+
+  watch(mode, () => {        
+    if ( mode.value === true ) root.value.classList.add('dark')
+    else root.value.classList.remove('dark')
+  })
 </script>
 
 <style lang="scss" scoped>
