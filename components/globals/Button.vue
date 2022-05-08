@@ -5,6 +5,7 @@
     @mouseover="isHovered = true"
     @mouseout="isHovered = false"
     :class="classNames"
+    :id="id"
     :data-button="dataType"
     ref="thisButton"
   >
@@ -16,7 +17,7 @@
   import { ref, onMounted } from 'vue'
   import { siteButtons } from '~/stores/buttons'
 
-  const props = defineProps(['onClick', 'classNames', 'dataType', 'text', 'hovText'])
+  const props = defineProps(['onClick', 'classNames', 'id', 'dataType', 'text', 'hovText'])
 
   
   const buttonStore = siteButtons()

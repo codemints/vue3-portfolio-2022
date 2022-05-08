@@ -6,6 +6,7 @@
   >
     <div class="[ intro__content ]" ref="heroText">
       <h1
+        id="hero__title"
         class="[ intro__title ]"
         :class="names.titles"
       >
@@ -20,12 +21,19 @@
           
         />
       </h1>
-      <h3 class="[ intro__subtitle ]" :class="names.subTitles">And I'm A <span class="[ block__hover ]">Creative</span> Frontend <span class="[ block__hover ]">Developer</span> With Roots In <span class="[ block__hover ]">Design</span></h3>
+      <h3
+        id="hero__subtitle"
+        class="[ intro__subtitle ]"
+        :class="names.subTitles"
+      >
+        And I'm A <span class="[ block__hover ]">Creative</span> Frontend <span class="[ block__hover ]">Developer</span> With Roots In <span class="[ block__hover ]">Design</span>
+      </h3>
 
       <GlobalsButton
         :onClick="scrollTo"
-        dataType="primary"
         :classNames="[ 'bg-theme-orange', 'text-theme-100', 'mt-20', 'mx-auto' ]"
+        id="hero__button"
+        dataType="primary"
         text="Let's Work Together"
         hovText="Contact Me Today"
       />
@@ -57,7 +65,7 @@
   const text = ref('Hello. My Name is LT.')
 
   const {
-
+    initIntroAnimations
   } = gsapAnimations()
 
   const scrollTo = () => {
@@ -70,7 +78,7 @@
     const height = (window.innerHeight - headerHeight.value) / 10
     section.value.style.height = `${height}rem`
 
-    initGsap()
+    initIntroAnimations()
   })
 </script>
 
@@ -110,7 +118,7 @@
       margin-top: 5rem;
       width: 30rem;
 
-      transition: $base;
+      transition: background-color 0.3s ease-in-out;
 
       &:hover {
         background-color: $theme-200;
