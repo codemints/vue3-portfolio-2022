@@ -177,7 +177,7 @@
 
       clearCanvas()
       redrawCanvas()
-      updateCircleColor(mode.value)
+      updateCircleColor()
       
       handleReset.kill = true
     }

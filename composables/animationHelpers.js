@@ -56,8 +56,8 @@ const followMouse = () => {
     $_.x = $_.xPos
     $_.y = $_.yPos
   } else {
-    $_.dx = ($_.xPos - $_.x) * 0.125
-    $_.dy = ($_.yPos - $_.y) * 0.125
+    $_.dx = ($_.xPos - $_.x) * 0.5
+    $_.dy = ($_.yPos - $_.y) * 0.5
 
     if ( Math.abs($_.dx) + Math.abs($_.dy) < 0.1 ) {
       $_.x = $_.xPos
@@ -89,6 +89,7 @@ const morphCursor = (button) => {
   cStyle.setProperty('--x', `${l + w / 2}px`)
   cStyle.setProperty('--y', `${t + h / 2}px`)
   cStyle.borderRadius = rad
+  cStyle.borderWidth = '0.35rem'
 }
 
 const unmorphCursor = () => {
@@ -98,6 +99,7 @@ const unmorphCursor = () => {
   cStyle.setProperty('--h', $_.h)
   cStyle.setProperty('--w', $_.w)
   cStyle.borderRadius = ''
+  cStyle.borderWidth = ''
   $_.cursor.classList.remove('button__hover')
 }
 

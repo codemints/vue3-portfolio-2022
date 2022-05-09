@@ -11,10 +11,10 @@ const gsapAnimations = () => {
       {
         opacity: 0,
         duration: 0.05,
-        delay: 1,
+        delay: 0.75,
         ease: 'linear',
         stagger: {
-          each: 0.1,
+          each: 0.05,
           onStart() {
             this._targets[0].classList.add(...classes)
           },

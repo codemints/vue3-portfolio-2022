@@ -47,11 +47,11 @@ export const sectionRoutes = ref([
 ])
 
 export const links = ref([
-  // {
-  //   name: 'twitter',
-  //   icon: 'fa-twitter',
-  //   url: 'https://www.twitter.com/codemints'
-  // },
+  {
+    name: 'twitter',
+    icon: 'fa-twitter',
+    url: 'https://twitter.com/iamcodemints'
+  },
   {
     name: 'linkedin',
     icon: 'fa-linkedin-in',

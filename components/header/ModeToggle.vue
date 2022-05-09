@@ -5,11 +5,11 @@
     <div class="[ toggle__buttons ] [ bg-theme-600 dark:bg-theme-800 ]">
       <div class="[ toggle_inputs ]">
         <label for="toggle__light">Toggle light mode</label>
-        <input class="[ cursor-pointer ]" type="radio" name="toggle-mode" id="toggle__light" @click="handleSchemeSwitch">
+        <input class="[ cursor-pointer ]" type="radio" name="toggle-mode" id="toggle__light" @click.stop.prevent="handleSchemeSwitch">
       </div>
       <div class="[ toggle_inputs ]">
         <label for="toggle__dark">Toggle dark mode</label>
-        <input class="[ cursor-pointer ]" type="radio" name="toggle-mode" id="toggle__dark" @click="handleSchemeSwitch">
+        <input class="[ cursor-pointer ]" type="radio" name="toggle-mode" id="toggle__dark" @click.stop.prevent="handleSchemeSwitch">
       </div>
       <div class="[ switch__wrap ]" :class="{ 'isDark': mode === true }">
         <div class="[ toggle__indicator ] [ bg-theme-blue ]"></div>

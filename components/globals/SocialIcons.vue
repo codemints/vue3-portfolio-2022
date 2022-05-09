@@ -26,10 +26,10 @@
     display:flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 1.6rem;
   }
   i {
-    font-size: 3.2rem;
+    font-size: 2.8rem;
   }
 
 </style>

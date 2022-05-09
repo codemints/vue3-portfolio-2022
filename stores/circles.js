@@ -6,7 +6,7 @@ const useCircles = defineStore('useCircles', () => {
   const circleData = ref({
     dark: ['#212933', '#323e4c'],
     light: ['#dde4ec', '#eff2f6'],
-    seed: mode === true ? ['#212933', '#323e4c'] : ['#dde4ec', '#eff2f6'],
+    seed: mode.value === true ? ['#212933', '#323e4c'] : ['#dde4ec', '#eff2f6'],
     click: ['#ff5850', '#00a7af'],
   })
   
@@ -152,6 +152,7 @@ const useCircles = defineStore('useCircles', () => {
   
   const redrawCanvas = () => {
     if ( $_.suspend === false || $_.suspend === undefined || $_.stopped === true ) return false
+    $_.circles = populateCircles($_.minPop, $_.maxPop, $_.minSize, $_.maxSize)
     updateCircleColor()
     modifyVelocity()
     $_.frame = requestAnimationFrame(drawToCanvas)
@@ -168,7 +169,12 @@ const useCircles = defineStore('useCircles', () => {
 
   const updateCircleColor = () => {
     const [scheme, notScheme] = mode.value === false ? ['light', 'dark'] : ['dark', 'light']
-    $_.circles.forEach(circle => circle.color = $_[scheme][$_[notScheme].indexOf(circle.color)])
+
+    $_.circles.forEach(circle => {
+      const circleColor = $_[scheme][$_[notScheme].indexOf(circle.color)]
+      if ( !circleColor ) return
+      circle.color = circleColor
+    })
   }
   
   //RETURNED DATA

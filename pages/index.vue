@@ -52,11 +52,16 @@
   onMounted(() => {
     root.value = document.documentElement
     body.value = document.body
+    const matchScheme = getPreferredColorScheme('dark')
 
     if ( mode.value === true ) root.value.classList.add('dark')
     else root.value.classList.remove('dark')
 
     setPreferredColorScheme()
+
+    matchScheme.addEventListener('change', () => {
+      matchScheme.matches ? updatePreferredColorScheme('add', true) : updatePreferredColorScheme('remove', false)
+    })
 
     initButtonAnimations(buttons)
   })
