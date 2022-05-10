@@ -1,8 +1,11 @@
 @use 'scss/abstracts/variables' as *;
 
+* {
+  cursor: none !important;
+}
+
 html {
   font-size: 10px;
-  // cursor: none;
 
   body {
     background-color: $theme-100;

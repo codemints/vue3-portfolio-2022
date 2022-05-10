@@ -14,12 +14,9 @@
 <script setup>
   import { mode, setMode } from 'state/dark-mode'
   import { ref, onMounted, watch } from 'vue'
-  import { siteButtons } from '@/stores/buttons'
-  import { initButtonAnimations } from '@/composables/animationHelpers'
 
   const root = ref(null)
   const body = ref(null)
-  const { buttons } = siteButtons()
 
   //METHODS
   const updatePreferredColorScheme = (method, val) => {
@@ -62,8 +59,6 @@
     matchScheme.addEventListener('change', () => {
       matchScheme.matches ? updatePreferredColorScheme('add', true) : updatePreferredColorScheme('remove', false)
     })
-
-    initButtonAnimations(buttons)
   })
 
   watch(mode, () => {        
