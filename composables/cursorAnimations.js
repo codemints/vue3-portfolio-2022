@@ -14,6 +14,28 @@ const cursorAnimations = () => {
 
   const $_ = cursorData
 
+  const changeCursorColor = (e) => {
+    $_.activeCursor.hidden = true
+    let belowCursor = document.elementFromPoint(e.clientX, e.clientY)
+    $_.activeCursor.hidden = false
+    
+    if ( e.clientX < 0 || e.clientX > window.innerWidth || belowCursor === null ) return
+
+    const colorBelow = getComputedStyle(belowCursor).getPropertyValue('background-color')
+    const colorCursor = getComputedStyle($_.activeCursor).getPropertyValue('background-color')
+
+    console.log(colorBelow - colorCursor)
+
+    if ( colorBelow === colorCursor ) {
+      $_.activeCursor.style.mixBlendMode = 'difference'
+      $_.activeCursor.style.opacity = '0.5'
+    }
+    else {
+      $_.activeCursor.style.mixBlendMode = ''
+      $_.activeCursor.style.opacity = '1'
+    }
+  }
+
   const setMouseCoordinates = e => {
     $_.mx = e.clientX - $_.offset || e.pageX - $_.offset
     $_.my = e.clientY || e.pageY
@@ -38,8 +60,8 @@ const cursorAnimations = () => {
       }
     }
 
-    $_.cursor.style.setProperty('--x', `${$_.cx}px`)
-    $_.cursor.style.setProperty('--y', `${$_.cy}px`)
+    $_.activeCursor.style.setProperty('--x', `${$_.cx}px`)
+    $_.activeCursor.style.setProperty('--y', `${$_.cy}px`)
   }
 
   const animatePulse = () => {
@@ -48,10 +70,9 @@ const cursorAnimations = () => {
 
   const morphCursor = (button) => {
     cancelAnimationFrame($_.frame)
-    const cStyle = $_.cursor.style
-    console.log(cStyle)
-    $_.h = getComputedStyle($_.cursor).getPropertyValue('--h')
-    $_.w = getComputedStyle($_.cursor).getPropertyValue('--w')
+    const cStyle = $_.activeCursor.style
+    $_.h = getComputedStyle($_.activeCursor).getPropertyValue('--h')
+    $_.w = getComputedStyle($_.activeCursor).getPropertyValue('--w')
     const rad = getComputedStyle(button).borderRadius
     const rect = button.getBoundingClientRect()
     const h = rect.height
@@ -59,34 +80,42 @@ const cursorAnimations = () => {
     const l = rect.x
     const t = rect.y
 
-    $_.cursor.classList.add('button__hover')
+    $_.activeCursor.classList.add('button__hover')
     cStyle.setProperty('--h', `${h}px`)
     cStyle.setProperty('--w', `${w}px`)
     cStyle.setProperty('--x', `${l + w / 2}px`)
     cStyle.setProperty('--y', `${t + h / 2}px`)
     cStyle.borderRadius = rad
     cStyle.borderWidth = '0.35rem'
+
+    $_.inactiveCursor.style.opacity = 0
+    button.style.cursor = 'pointer'
   }
 
-  const unmorphCursor = () => {
-    $_.frame = requestAnimationFrame(followMouse)
-    const cStyle = $_.cursor.style
+  const unmorphCursor = (button) => {
+    $_.frame = requestAnimationFrame(animateCursor)
+    const cStyle = $_.activeCursor.style
 
     cStyle.setProperty('--h', $_.h)
     cStyle.setProperty('--w', $_.w)
     cStyle.borderRadius = ''
     cStyle.borderWidth = ''
-    $_.cursor.classList.remove('button__hover')
+    $_.activeCursor.classList.remove('button__hover')
+
+    $_.inactiveCursor.style.opacity = 1
+    button.style.cursor = ''
   }
 
   const setCursorData = (obj) => {
     $_.root = obj.root
     $_.offset = obj.body.offsetLeft
-    $_.cursor = obj.cursor
+    $_.activeCursor = obj.activeCursor
+    $_.inactiveCursor = obj.inactiveCursor
     $_.drag = obj.drag
   }
 
   const initCursorAnimation = () => {
+    $_.activeCursor.style.opacity = 1
     $_.root.addEventListener('mousemove', setMouseCoordinates)
     animateCursor()
   }
@@ -94,7 +123,7 @@ const cursorAnimations = () => {
   const initCursorMorph = (buttons) => {
     buttons.forEach(button => {
       button.addEventListener('mouseover', () => morphCursor(button))
-      button.addEventListener('mouseleave', unmorphCursor)
+      button.addEventListener('mouseleave', () =>  unmorphCursor(button))
     })
   }
 

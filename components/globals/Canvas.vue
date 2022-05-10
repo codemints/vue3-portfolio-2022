@@ -54,7 +54,7 @@
   #intro__canvas {
     position: absolute;
     top: 0;
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0);
     z-index: 0;
   }
 </style>

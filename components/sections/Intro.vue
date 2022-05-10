@@ -16,7 +16,6 @@
           charClass="char"
           specialChars="['.']"
           specialClass="[ text-theme-orange ]"
-          extraClasses="[ cursor-pointer ]"
           @hover="handleHoverClass($event, ['animate__animated', 'animate__bounce'])"
           
         />

@@ -1,5 +1,5 @@
 <template>
-  <nav class="[ main__nav ]">
+  <nav class="[ main__nav ][ bg-theme-600 dark:bg-theme-500 ]">
     <div class="[ nav__wrapper ]">
       <div ref="parentNode" class="nav__links">
         <GlobalsScrollLink

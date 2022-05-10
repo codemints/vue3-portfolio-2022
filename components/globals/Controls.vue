@@ -252,6 +252,7 @@
     align-items: center;
     justify-content: center;
     gap: 1.25rem;
+    pointer-events: none;
 
     p {
       color: white;

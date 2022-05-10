@@ -1,5 +1,5 @@
 <template>
-  <div class="[ nav__hamburger ] [ cursor-pointer ]">
+  <div class="[ nav__hamburger ]">
     <div :class="names.menu"></div>
     <div :class="names.menu"></div>
     <div :class="names.menu"></div>

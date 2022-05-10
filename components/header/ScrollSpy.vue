@@ -1,5 +1,5 @@
 <template>
-  <div class="[ scrollspy__outer ]">
+  <div class="[ scrollspy__outer ] [ bg-theme-200 dark:bg-theme-700 ]">
     <div class="[ scrollspy__inner ] [ bg-theme-blue dark:bg-theme-orange ]" ref="bar"></div>
     <p class="[ text-theme-600 dark:text-theme-100 ]">document.scroll(<span ref="text">0</span>%)</p>
   </div>

@@ -27,9 +27,14 @@
     align-items: center;
     justify-content: center;
     gap: 1.6rem;
-  }
-  i {
-    font-size: 2.8rem;
+    
+    a {
+      cursor: none;
+    }
+    
+    i {
+      font-size: 2.8rem;
+    }
   }
 
 </style>
