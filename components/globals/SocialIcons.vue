@@ -1,24 +1,34 @@
 <template>
   <div class="social__nav">
-    <a v-for="link in links" :key="link.name" :href="link.url" target="_blank">
+    <a
+      v-for="link in links"
+      :key="link.name"
+      :href="link.url"
+      target="_blank"
+      :ref="setRefs"
+      data-hover="grow"
+    >
       <i class="[ fa-brands ]" :class="[ link.icon, names.icon ]"></i>
     </a>
   </div>
 </template>
 
-<script>
+<script setup>
+  import { ref, onMounted } from 'vue'
   import { cNameRef as names } from 'state/class-names'
   import { links } from 'state/routed'
+  import { siteLinks } from '@/stores/links'
 
-  export default {
-    setup () {
+  const { addItem } = siteLinks()
+  const elementRefs = ref([])
 
-      return {
-        names,
-        links
-      }
-    }
+  const setRefs = el => {
+    elementRefs.value.push(el)
   }
+
+  onMounted(() => {
+    elementRefs.value.forEach(ref => addItem(ref, 'links'))
+  })
 </script>
 
 <style lang="scss" scoped>

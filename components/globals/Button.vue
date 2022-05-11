@@ -15,17 +15,17 @@
 
 <script setup>
   import { ref, onMounted } from 'vue'
-  import { siteButtons } from '~/stores/buttons'
+  import { siteLinks } from '@/stores/links'
 
   const props = defineProps(['onClick', 'classNames', 'id', 'dataType', 'text', 'hovText'])
 
   
-  const buttonStore = siteButtons()
+  const { addItem } = siteLinks()
   const thisButton = ref(null)
   const isHovered = ref(false)
 
   onMounted(() => {
-    buttonStore.addButton(thisButton.value)
+    addItem(thisButton.value, 'buttons')
   })
   
 </script>

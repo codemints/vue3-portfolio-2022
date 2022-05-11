@@ -15,13 +15,13 @@
 <script setup>
   import { ref, onMounted, watch } from 'vue'
   import cursorAnimations from '@/composables/cursorAnimations'
-  import { siteButtons } from '@/stores/buttons'
+  import { siteLinks } from '@/stores/links'
 
 
   const cursorOuter = ref(null)
   const cursorInner = ref(null)
 
-  const { buttons } = siteButtons()
+  const { links } = siteLinks()
   const animateOuter = cursorAnimations()
   const animateInner = cursorAnimations()
 
@@ -45,11 +45,19 @@
       inactiveCursor: cursorOuter.value,
       drag: 1,
     })
+    
     animateOuter.initCursorAnimation()
     animateInner.initCursorAnimation()
   })
 
-  watch(buttons, (newVal) => animateOuter.initCursorMorph(newVal))
+  watch(links.buttons, (newVal) => animateOuter.initCursorMorph(newVal))
+  watch(links.links, (newVal) => {
+    const grow = newVal.filter(val => val.dataset.hover === 'grow')
+    const shrink = newVal.filter(val => val.dataset.hover === 'shrink')
+
+    animateOuter.animateGrow(grow)
+    animateOuter.animateShrink(shrink)
+  })
 
 </script>
 
@@ -59,8 +67,6 @@
   .cursor__inner,
   .cursor__outer {
     position: fixed;
-    top: 0;
-    left: 0;
 
     border-radius: 50%;
     opacity: 0;
@@ -74,15 +80,15 @@
     --h: 2.5rem;
     --w: 2.5rem;
 
-    transform: translate( calc( var(--x) - (var(--w)/2) ), calc( var(--y) - (var(--h)/2) ) );
+    left: calc( var(--x) - (var(--w)/2) );
+    top: calc( var(--y) - (var(--h)/2) );
 
     height: var(--h);
     width: var(--w);
 
-    border: 0.2rem solid;
+    border: 0.25rem solid;
     border-color: lighten($theme-500, 10%);
 
-    
     transition-property:
     color,
     border,
@@ -92,6 +98,18 @@
     ;
     transition-duration: 0.2s;
     transition-timing-function: cubic-bezier(.39,.575,.565,1);
+
+    &.grow {
+      --h: 5rem;
+      --w: 5rem;
+    }
+
+    &.shrink {
+      --h: 0.75rem;
+      --w: 0.75rem;
+      border: none;
+      background-color: darken($theme-200, 15%);
+    }
   }
 
   .cursor__inner {
@@ -100,7 +118,8 @@
     --h: 0.75rem;
     --w: 0.75rem;
 
-    transform: translate( calc( var(--x) - (var(--w)/2) ), calc( var(--y) - (var(--h)/2) ) );
+    left: calc( var(--x) - (var(--w)/2) );
+    top: calc( var(--y) - (var(--h)/2) );
 
     height: var(--h);
     width: var(--w);
@@ -110,6 +129,10 @@
 
   .dark .cursor__outer {
     border-color: lighten($theme-300, 10%);
+
+    &.shrink {
+      background-color: lighten($theme-300, 10%);
+    }
   }
   .dark .cursor__inner {
     background-color: lighten($theme-500, 15%);

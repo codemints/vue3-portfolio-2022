@@ -14,28 +14,6 @@ const cursorAnimations = () => {
 
   const $_ = cursorData
 
-  const changeCursorColor = (e) => {
-    $_.activeCursor.hidden = true
-    let belowCursor = document.elementFromPoint(e.clientX, e.clientY)
-    $_.activeCursor.hidden = false
-    
-    if ( e.clientX < 0 || e.clientX > window.innerWidth || belowCursor === null ) return
-
-    const colorBelow = getComputedStyle(belowCursor).getPropertyValue('background-color')
-    const colorCursor = getComputedStyle($_.activeCursor).getPropertyValue('background-color')
-
-    console.log(colorBelow - colorCursor)
-
-    if ( colorBelow === colorCursor ) {
-      $_.activeCursor.style.mixBlendMode = 'difference'
-      $_.activeCursor.style.opacity = '0.5'
-    }
-    else {
-      $_.activeCursor.style.mixBlendMode = ''
-      $_.activeCursor.style.opacity = '1'
-    }
-  }
-
   const setMouseCoordinates = e => {
     $_.mx = e.clientX - $_.offset || e.pageX - $_.offset
     $_.my = e.clientY || e.pageY
@@ -65,7 +43,46 @@ const cursorAnimations = () => {
   }
 
   const animatePulse = () => {
-    //expand and pulse cursor when hovered over zone
+    
+  }
+
+  const animateHide = () => {
+
+  }
+
+  const animateShrink = (links) => {
+    const setStyles = (val, method) => {
+      $_.inactiveCursor.style.opacity = val
+      $_.activeCursor.classList[method]('shrink')
+    }
+
+    links.forEach(link => {
+      link.addEventListener('mouseover', () => {
+        setStyles(0, 'add')
+      })
+
+      link.addEventListener('mouseout', () => {
+        setStyles(1, 'remove')
+      })
+    })
+  }
+
+  const animateGrow = (links) => {
+
+    const setStyles = (val, method) => {
+      $_.inactiveCursor.style.opacity = val
+      $_.activeCursor.classList[method]('grow')
+    }
+
+    links.forEach(link => {
+      link.addEventListener('mouseover', () => {
+        setStyles(0, 'add')
+      })
+
+      link.addEventListener('mouseout', () => {
+        setStyles(1, 'remove')
+      })
+    })
   }
 
   const morphCursor = (button) => {
@@ -96,8 +113,8 @@ const cursorAnimations = () => {
     $_.frame = requestAnimationFrame(animateCursor)
     const cStyle = $_.activeCursor.style
 
-    cStyle.setProperty('--h', $_.h)
-    cStyle.setProperty('--w', $_.w)
+    cStyle.setProperty('--h', '')
+    cStyle.setProperty('--w', '')
     cStyle.borderRadius = ''
     cStyle.borderWidth = ''
     $_.activeCursor.classList.remove('button__hover')
@@ -131,6 +148,10 @@ const cursorAnimations = () => {
     initCursorAnimation,
     initCursorMorph,
     setCursorData,
+    animateGrow,
+    animateShrink,
+    animateHide,
+    animatePulse,
   }
 }
 
